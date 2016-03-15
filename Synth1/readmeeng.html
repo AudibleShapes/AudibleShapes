@@ -1,0 +1,952 @@
+<HTML>
+<META http-equiv="Content-Type" content="text/html;charset=Shift_JIS">
+<HEAD>
+<TITLE>Software Synthesizer Synth1 Manual</TITLE>
+<link rel="stylesheet" href="style.css">
+<style type="text/css">
+H4 {
+    width: 100%;
+    font-weight: bold;
+    font-size: 1em;
+    color: #ffffff;
+    background-color: #7777dd;
+    border: 1px none #8888f8;
+    border-top: 1px solid #ccccff;
+    border-left: 1px solid #ccccff;
+    border-right: 2px solid #666699;
+    border-bottom: 2px solid #666699;
+    padding: 5px 3px 3px 0.5em;
+}
+H5 {
+    font-size: 1em;
+}
+P {
+    text-indent: 1em;
+}
+.i {
+    margin: 0em 1em 0em 1em;
+}
+</style>
+</HEAD>
+
+<BODY>
+<center><table width="90%"><tr><td algin=center>
+<!---------------------------- title	 ---------------------------->
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1" WIDTH="100%">
+<TR BGCOLOR="#dddddd">
+<TD width="72" height="72" ALIGN="center" BGCOLOR="#808080" 0BGCOLOR="#dd80ff">
+<FONT SIZE="7"><B><FONT FACE="WingDings"></FONT></B></FONT>
+</TD><TD height="72" align=center>
+<FONT SIZE=6><B><SPAN STYLE="width:100%;filter:Shadow(color=#808080,direction=135)">
+Synth1 Ver1.13 Manual</SPAN></B></FONT></td><td width=72 valign="bottom">2014.7.10
+</TD></TR></TABLE>
+
+<a href="readme.html">Japanese manual is here.</a>
+<br><FONT color="red">This document is incomplete. </FONT><br>
+
+<!---------------------------- contents ---------------------------->
+<h2>Contents</h2>
+<div class=i>
+<ul>
+<li><a href="#about">Introduction to Synth1</a></li>
+<li><a href="#env">Operational Environment and Limitations</a></li>
+<li><a href="#inst">Installation and Uninstallation</a></li>
+<li><a href="#ope">Operation</a></li>
+<ul>
+<li><a href="#opeBasic">Operation</a></li>
+<li><a href="#ope1">Outline</a></li>
+<li><a href="#ope2">Oscillators</a></li>
+<li><a href="#ope3">Filter</a></li>
+<li><a href="#ope4">Amplifier</a></li>
+<li><a href="#ope5">LFO</a></li>
+
+<li><a href="#ope13">Effect</a></li>
+
+<li><a href="#ope6">Equalizer</a></li>
+<li><a href="#ope7">Tempo Delay</a></li>
+<li><a href="#ope8">Chorus/Flanger</a></li>
+<li><a href="#ope9">Arpeggiator</a></li>
+<li><a href="#ope10">Play Mode</a></li>
+<li><a href="#ope11">Common Settings</a></li>
+<li><a href="#ope12">Option Dialog</a></li>
+</ul>
+<li><a href="#preset">Presets</a></li>
+<li><a href="#rireki">Version History</a></li>
+<li><a href="#supo">Support</a></li>
+</ul>
+</div>
+
+<!---------------------------- intro ---------------------------->
+<a name="about">
+<center><h4>Introduction to Synth1</h4></center>
+<div class=i>
+<p>Synth1 is a software synthesizer for computer music use. It is VSTi/AU compatible. (AU version is beta now)
+ The current version is freeware. 
+</p>
+<p>Functionally it is modelled on the Clavia Nord Lead 2<FONT color=red>Red Synth</FONT>
+; with the following characteristics:
+</p>
+<ul>
+<li>2 Oscillators + 1 sub Oscillator, FM modulation, ring modulation,sync,modulation envelope</li>
+<li>4 types of filters, distortion</li>
+<li>2LFO(synchronized with host)</li>
+<li>Arpeggiator (synchronized with host) </li>
+<li>Tempo delay (synchronized with host), stereo chorus/flanger</li>
+<li>Legato mode, portamento</li>
+<li>32 notes polyphony</li>
+<li>128 presets</li>
+<li>Thoroughly optimized for light CPU load using SSE instructions etc. </li>
+<li>Automation</li>
+</ul>
+</div>
+
+<!---------------------------- Operational Environment ---------------------------->
+<a name="env">
+<center><h4>Operational Environment and Limitations</h4></center>
+<div class=i>
+Windows
+<table border cellpadding=1 cellspacing=0>
+<tr><td>Compatible CPU</td><td>The x86/x64 CPU that supports SSE2 is necessary. If it is not greatly old CPU, it is safe. </td></tr>
+<tr><td>Compatible OS</td><td>Windows XP 32bit/64bit or later (developed on Windows 7 64bit)</td></tr>
+<tr><td>Compatible hosts</td><td>Host that supports VST. CUBASE,SONAR,etc</td></tr>
+<tr><td>Plugin Formats</td><td>VSTi2.4<br></td></tr>
+<tr><td>Sampling Frequency</td><td>arbitrary<br></td></tr>
+<tr><td>Limitations</td><td>
+Not multitimbral<br>
+</td></tr>
+</table>
+</div>
+
+<!---------------------------- install and unsinastall ---------------------------->
+<a name="inst">
+<center><h4>Installation and Uninstallation</h4></center>
+<div class=i>
+<h5>Installation</h5>
+
+
+<b><u>A case to use for the first time</u></b><br>
+<ol>
+	<li>You carry out setting initialization tool "initsettings.exe" in the directory same as this file. Then setting is initialized.
+	<li>The VSTi DLL is called “Synth1 VST.dll" (32bit) / "Synth1 VST64.dll" (64bit). Copy this file to the VST plugin folder of the host application.<br>
+	For example, if your favourite sequencer is Cubase , you should copy "Synth1 VST.dll" or "Synth1 VST64.dll" to "C:\Program Files\Cubase SX\Vstplugins" directory.<br>
+</ol>
+	Installation is now complete. Please confirm that Synth1 appears in the plugin menu of the host application. <br>
+<br>
+<b><u>At the time of version up (When you have already used Synth1 and want to succeed setting information)</u></b><br>
+<ol>
+	<li>Please execute the set succession tool (reg2ini.exe) that exists in the same directory as this file, 
+	and generate the configuration file (ini file) when improving from the version before Synth1 V1.11. 
+	<li>Please overwrite-copy plugin file "Synth1 VST.dll" by manual operation to a VST plugin folder.
+</ol>
+	Installation is now complete.<br>
+<br>
+
+<hr>
+<h5>Uninstallation</h5>
+
+	Please delete "Synth1 VST.dll" of the VST plug in folder of the host application and a folder with this file.<br>
+	In addition, Synth1 writes the set up information in the following ini files.<br><br>
+	APPDATA\Daichi\Synth1\synth1.ini<br>
+	ex) C:\Users\userName\AppData\Roaming\Daichi\Synth1\synth1.ini<br>
+<br>
+	There is not the problem even if you do not delete it, but please delete it by manual operation when you want to delete it.
+<br>
+</div>
+
+<!---------------------------- operation ---------------------------->
+<a name="ope">
+<center><h4>Operation</h4></center>
+
+<div class=i>
+<a name="opeBasic">
+<h5>Basic Operation</h5>
+<b>Panel size and color</b><br>
+For ease of operation, you can change the size of the user interface panel, as well as the background and text color. These options are accessed via the opt button in the bottom of the panel --&gt; Panel Size, Color Customize.<br>
+* If you change the panel size, please close and reopen the window once. In some host applications, the panel does not change until you have reopened the song file.<br><br>
+
+<b>Knobs</b><br>
+When you left-click a knob, a slider appears for manipulation. Minute adjustments can also be made by using the mouse wheel. To close the slider, right-click it or perform a left-click in a different place. 
+<br><br>
+
+<b>Changing programs</b><br>
+In the lower part of the panel there is a LCD which displays the program name. Click it to open an overview of banks/programs. Left-click the desired program to select it. Right-click to cancel. 
+</p>
+
+<hr>
+
+<a name="ope1">
+<h5>Outline</h5>
+<p>
+The structure of Synth1 is shown below. 
+The section with 16 voices simulates an analog synth with 2 VCOs. The synth also has an arpeggiator, equalizer, delay and chorus.</p>
+<IMG SRC="images/block.jpg">
+
+<hr>
+
+<a name="ope2">
+<h5>Oscillators</h5>
+<p>Synth1 has two oscillators. The basic parameters of each oscillator, such as waveshape and pitch, can be adjusted.
+The pitch of oscillator2 ,FM and pulse width can be varied over time using modulation envelopes.
+</p>
+<IMG SRC="images/osc.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>1</td><td>Select sine, triangle, saw or pulse as the waveshape of generator 1.</td></tr>
+<tr><td>FM</td><td>Adjust the FM modulation ratio. Oscillator 2 acts as modulator; oscillator 1 acts as carrier. FM modulation is only possible when ring modulation is off.</td></tr>
+<tr><td>2</td><td>Select triangle, saw, pulse or noise as the waveshape of generator 2.</td></tr>
+<tr><td>ring</td><td>Switch ring modulation (AM modulation) ON/OFF. When turned on, the output of oscillator 2 is subjected to ring modulation.</td></tr>
+<tr><td>track</td><td>Switch tracking of oscillator 2 ON/OFF. Tracking pitches the output according to the note number played. When turned off, sound is output at a uniform frequency.</td></tr>
+
+<tr><td>sync</td><td>Switch the sync function ON/OFF. When turned on, the phase of oscillator 2 is matched with the frequency of oscillator 1.</td></tr>
+<tr><td>pitch</td><td>Set the pitch of oscillator 2.</td></tr>
+<tr><td>fine</td><td>Minutely adjust the pitch of oscillator 2.</td></tr>
+<tr><td>m.env</td><td>
+Switch the modulation envelope ON/OFF. When on, the follwing destination of modulation varies over time according to the settings of A, D and amt below.</td></tr>
+<tr><td>dest.</td><td>Select pitch of oscillator2, FM or pulse width as the destinaion of modulation env.</td></tr>
+<tr><td>A</td><td>Set the attack time of the modulation envelope.</td></tr>
+<tr><td>D</td><td>Set the decay time of the modulation envelope.</td></tr>
+<tr><td>amt</td><td>Set the amount of modulation variation when modulation envelope is on.
+Right of the centre raises the amount, left of the centre lowers the amount.
+The centre setting results in no modulation variation.</td></tr>
+<tr><td>key shift</td><td>Transposes the pitch of oscillator 1 and 2 corresponding to the number of the note played.</td></tr>
+<tr><td>p/w</td><td>Set the pulse width of the pulse wave. Turn left to narrow the width, turn right to widen it. Affects both oscillator 1 and 2.</td></tr>
+<tr><td>mix</td><td>Set the volume balance of oscillator 1 and 2. Turn left to increase the relative volume of oscillator 1, turn right to increase the relative volume of oscillator 2.</td></tr>
+<tr><td>tune</td><td>Minutely adjust the pitch of the oscillators.</td></tr>
+</table>
+<hr>
+
+<a name="ope3">
+<h5>Filter</h5>
+<p>A resonance filter and a simple distortion(saturation) effect. With the filter envelope, cutoff frequency can be varied over time. 
+</p>
+<IMG SRC="images/filter.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>type</td><td>Select the filter type from low-pass (12 dB), low-pass (24 dB), high-pass (12 dB) or high-pass (24 dB).</td></tr>
+<tr><td>A</td><td>Set the attack time of the filter envelope.</td></tr>
+<tr><td>D</td><td>Set the decay time of the filter envelope.</td></tr>
+<tr><td>S</td><td>Set the sustain level of the filter envelope.</td></tr>
+<tr><td>R</td><td>Set the release time of the filter envelope.</td></tr>
+<tr><td>amt</td><td>Set the amount of variation induced by the envelope. Turn left to decrease the envelope, turn right to increase it.</td></tr>
+<tr><td>frq</td><td>Set the level of the cut-off frequency.</td></tr>
+<tr><td>res</td><td>Set the amount of resonance.</td></tr>
+<tr><td>sat</td><td>Set the amount of saturation.</td></tr>
+<tr><td>trk</td><td>
+Set the sensitivity of the cutoff frequency tracking. Adjusts how much the cutoff frequency changes according to the note number played. Turned all the way to the right, the frequency changes an octave with a one octave change in the note number played (full). Turn all the way to the left to leave the frequency unchanged.</td></tr>
+<tr><td>vel</td><td>Select whether the amount of envelope variation changes according to the velocity of the note played.</td></tr>
+</table>
+<hr>
+
+<a name="ope4">
+<h5>Amplifier</h5>
+<p>Controls the variation of the amplitude over time according to an envelope.</p>
+<IMG SRC="images/amp.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>A</td><td>Set the attack time of the envelope.</td></tr>
+<tr><td>D</td><td>Set the decay time of the envelope.</td></tr>
+<tr><td>S</td><td>Set the sustain level of the envelope.</td></tr>
+<tr><td>R</td><td>Set the release time of the envelope.</td></tr>
+<tr><td>gain</td><td>Set the overall volume level.</td></tr>
+<tr><td>vel</td><td>Adjust how much the amplitude changes according to the velocity of the note played. Turn left to decrease the sensitivity and thus the volume change; turn right to increase it.</td></tr>
+</table>
+<hr>
+
+<a name="ope5">
+<h5>LFO</h5>
+<p>Controls various effects by cyclically modulating parameters of the VCO, VCA and VCF. In Synth1 the two LFOs operate independently. The frequency or amplitude of LFO1 can also be changed with information from the MIDI wheel. The sensitivity is adjusted by the common parameters wheels speed/wheel amt.</p>
+<IMG SRC="images/lfo.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>1</td><td>Switch LFO1 ON/OFF.</td></tr>
+<tr><td>Left LCD</td><td>Select the waveshape of LFO1 from saw, triangle, sine, square, random(sample & hold) or random (smoothed).</td></tr>
+<tr><td>Left dst</td><td>Select the target of the LFO1 modulation from
+oscillator 2 pitch, filter cut-off frequency, volume, oscillator 2 pulse width or FM.</td></tr>
+<tr><td>Left spd</td><td>Set the frequency of the LFO1 modulation.</td></tr>
+<tr><td>Left amt</td><td>Set the amount of modulation of LFO1.</td></tr>
+<tr><td>Left tempo</td><td>Sync to host sequencer tempo.(*1)</td></tr>
+<tr><td>Left key</td><td>Sync to key on.</td></tr>
+
+<tr><td>2</td><td>Switch LFO2 ON/OFF.</td></tr>
+<tr><td>Right LCD</td><td>Select the waveshape of LFO2 from saw, triangle, sine, square, random(sample & hold) or random (smoothed).</td></tr>
+<tr><td>Right dst</td><td>Select the target of the LFO2 modulation from
+oscillator 2 pitch, filter cut-off frequency, volume, oscillator 2 pulse width or FM.</td></tr>
+<tr><td>Right spd</td><td>Set the frequency of the LFO2 modulation.</td></tr>
+<tr><td>Right amt</td><td>Set the amount of modulation of LFO2.</td></tr>
+<tr><td>Right tempo</td><td>Sync to host sequencer tempo.</td></tr>
+<tr><td>Right key</td><td>Sync to key on.</td></tr>
+</table>
+
+(*1)<br>
+<pre>
+(1) - (32)-&gt;whole note to 1/32 note
+'+'       -&gt;add
+'*'       -&gt;multiple
+'/3'      -&gt;triplets
+</pre>
+<hr>
+
+<a name="ope6">
+<h5>Equalizer</h5>
+<p>A parametric equalizer/low-pass filter.</p>
+<IMG SRC="images/eq.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>freq</td><td>Set the frequency of the parametric equalizer.</td></tr>
+<tr><td>levl</td><td>Set the level for the parametric equalizer. Turn left to lower the level, turn right to raise it. Set in the middle for zero equalizing. </td></tr>
+<tr><td>Q</td><td>Set the Q curve of the parametric equalizer. Turn left to flatten the curve, turn right to make it steeper.</td></tr>
+<tr><td>tone</td><td>
+Set the cut-off of the low-pass/high-pass filter. Turn left to reduce the higher frequencies (high-cut). Turn right to reduce the lower frequencies (low-cut).</td></tr>
+</table>
+<hr>
+
+<a name="ope7">
+<h5>Tempo Delay</h5>
+<p>A delay effect sychronized with the tempo of the host sequencer. Due to a maximum buffer of 3 seconds it does not work with extremely slow tempos,.</p>
+<IMG SRC="images/delay.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>ON</td><td>Switch the effect ON/OFF.</td></tr>
+<tr><td>time</td><td>Set the delay time, ranging from 1/32 note triplets to whole note.</td></tr>
+<tr><td>fdbk</td><td>Set the feedback level.</td></tr>
+<tr><td>levl</td><td>Adjust the delay volume.</td></tr>
+</table>
+<hr>
+
+<a name="ope8">
+<h5>Chorus/Flanger</h5>
+<p>A stereo chorus/flanger effect.</p>
+<IMG SRC="images/chorus.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>ON</td><td>Switch the effect ON/OFF.</td></tr>
+<tr><td>LCD</td><td>Select 1 stage, 2 stages or 4 stages for the chorus or flanger effect. 1 stage results in a monaural effect. It seems that 1 stage is most appropriate for achieveing a flanger effect.</td></tr>
+<tr><td>time</td><td>Set the time delay on which the effect is based. A shorter time results in a more flanger-like effect.</td></tr>
+<tr><td>deph</td><td>Set the level of modulation.</td></tr>
+<tr><td>rate</td><td>Set the rate of modulation.</td></tr>
+<tr><td>fdbk</td><td>Set the feedback level.</td></tr>
+<tr><td>levl</td><td>Adjust the level of the chorus/flanger.</td></tr>
+</table>
+<hr>
+
+<a name="ope9">
+<h5>Arpeggiator</h5>
+<p>A simple arpeggiator. The arpeggiator functions by automatically playing each note of a chord (or a single note) in a sequence with a fixed tempo.
+</p>
+<IMG SRC="images/arp.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>ON</td><td>Switch the arpeggiator ON/OFF.</td></tr>
+<tr><td>type</td><td>
+Selects the method of arpeggiation from updown, up, down or random.  Updown plays the input notes from the lowest to the highest and back down again. Up plays from the lowest note and up, down plays from the highest note and down. Random plays the input notes in a random sequence.
+</td></tr>
+<tr><td>range</td><td>Selects the range of arpeggiation in octaves, ranging from 1 octave (1oct) to 4 octaves (4oct).</td></tr>
+<tr><td>beat</td><td>Selects the speed of arpeggiation from whole note to 1/32 note triplets.</td></tr>
+<tr><td>gate</td><td>Sets the length of each note. Turned all the way to the right, the notes sound without interruption, which is effective in combination with legato and portamento modes.</td></tr>
+</table>
+<hr>
+
+<a name="ope10">
+<h5>Play Mode</h5>
+<p>Settings which relate to playing style.</p>
+<IMG SRC="images/playmode.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>mode</td><td>
+Selects polyphonic, monophonic or legato mode. Polyphonic is the normal mode, enabling chord harmonies. Monophonic mode only enables a single voice, so chords cannot be played in this mode. Legato is similar to monophonic mode in that only one voice can be played at a time. It differs from monophonic mode in that when a note is played continuously, the VCO and VCA envelopes are not triggered, so that only the pitch changes.
+</td></tr>
+<tr><td>p.b range</td><td>Set the range of pitch change when receiving a MIDI pitch bend signal.</td></tr>
+<tr><td>portament</td><td>Set the portamento time. Portamento changes the pitch of each voice towards the target pitch, over time from the moment the note has been input.
+</td></tr>
+<tr><td>speed</td><td>Sets the sensitivity to information from a MIDI modulation wheel, triggering modulation of the frequency of LFO1.</td></tr>
+<tr><td>amt</td><td>Sets the sensitivity to information from a MIDI modulation wheel, triggering modulation of the amplitude of LFO1.</td></tr>
+<tr><td>unison</td><td>「ポリボイス」時は２ボイス、「モノ/レガート」時は４ボイスを使って各ノートを発音します。
+微妙にピッチのずれた音が重なるため、音に厚みがでます。</td></tr>
+<tr><td>auto</td><td>音が途切れないような演奏をした時にだけポルタメントを効かせる機能です。</td></tr>
+</table>
+<hr>
+
+<a name="ope11">
+<h5>Common Settings</h5>
+<p>
+Controls general settings such as the changing or saving of programs. The program management of Synth1 can handle 128 programs in each of 10 banks, giving a total of 1280 possible programs. Each program is saved as a single file. The folders which store the programs divide them into banks. These folders can be changed in the options window.
+</p>
+<IMG SRC="images/common.jpg">
+<table border cellpadding=1 cellspacing=0>
+<tr><td>vol</td><td>Set the master volume.</td></tr>
+<tr><td>poly</td><td>Set the number of possible simultaneous voices in polyphonic mode.</td></tr>
+<tr><td>program</td><td>Changes the program. Click the LCD to open an overview, and select the desired bank/program.</td></tr>
+<tr><td>bank</td><td>Changes the bank.</td></tr>
+<tr><td>write</td><td>Writes the present program to a file. Click to open a dialog box, then select the bank and program you wish to overwrite.</td></tr>
+<tr><td>opt</td><td><li>Open the option Dialog box.</li>
+<li>[Shift]キーを押しながらクリックすると、MIDI Contorl Change
+ラーンモードに入ります。ラーンモードでは、MIDIコントールチェンジとSynth1のパラメタとの対応関係（Control Change Map）
+を簡単に行う事ができます。Synth1上のパラメータをクリックした後に、MIDIコントローラやシンセサイザーなど
+からツマミ操作を行うと、クリックしたSynth1のパラメタと、MIDI CCが対応づけされます。
+ラーンモードを抜けるには、vol,poly,bank.write.optのどれかをクリックします。</li>
+</td></tr>
+</table>
+
+<a name="ope12">
+<h5>Option Dialog</h5>
+<p>
+In the options window you can general settings and MIDI settings.
+These settings are common to all Synth1 under starting.
+</p>
+<table border cellpadding=1 cellspacing=0>
+<tr><td>General</td><td>Settings for program folder locations, and options for the user interface. The user interface panel color is set with HTML-type values (#RRGGBB).</td></tr>
+<tr><td>MIDI</td><td>MIDIコントロールチェンジマップの編集/Load/Save,MIDIメッセージの設定などを指定します。<br>
+<li>Receive Message : Normally the program will change when a MIDI bank select or program change message is received. 
+you can tell Synth1 to ignore these messaes, so that no program change occurs.
+<li>Synth1 V1.06には、nord lead2用のＣＣマップを用意しました。loadボタンで
+読み込んで使用してください。</li></td></tr>
+</table>
+
+</div>
+
+<!---------------------------- presets ---------------------------->
+<a name="preset">
+<center><h4>Presets</h4></center>
+<div class=i>
+<p>
+Synth1 has 128 presets. I tried to simulate a GM set by referring to a SC-88 Pro. Alas, the first half of the presets did not turn out too well.
+Although some of them could come in handy, they are included more as a reference. The unique sounds from 81 upwards might be more useful.
+If you like YMO, try loading program 98 and playing the high IV major chord from “Behind the Mask”!
+</p>
+</div>
+
+<!---------------------------- history ---------------------------->
+<a name="rireki">
+<center><h4>Version History</h4></center>
+<div class=i>
+
+<h5>Ver1.13 beta3 (2014.7.10)</h5>
+<ul>
+	<li>BugFix
+	<ul>
+		<li>Fixed a problem that program name list is empty display if you add a synth1 instance after removing the synth1 on DAW(Reaper, etc.) .
+		<li>Fixed a problem that reg2ini.exe and initsetting.exe does not work on WindowsXP.
+	</ul>
+	</li>
+</ul>
+
+
+<h5>Ver1.13 beta2 (2014.7.8)</h5>
+<ul>
+	<li>A new filter "LPDL" has been added in filter section.
+	<ul>
+		<li>It is a low-pass filter modeled after the diode ladder mounted on TB303, etc..
+		<li>It is close to "LP24" Because it is the filter of the fourth order, but it is fat and darker than "LP24" feel.
+		<li>Lower frequency also increase the resonance does not decrease. I think that it fits well in the synth bass.
+		<li>This filter is over-sampling process if the sampling frequency is 44.1/48KHz.
+	</ul>
+	</li>
+
+	<li>Accuracy of the square wave has been improved. (8 multiple detune of osc1 are excluded)
+	</li>
+
+	<li>Cut-off frequency of the "LP24" is now moving more smoothly.
+	</li>
+
+	<li>BugFix
+	<ul>
+		<li>Fixed a problem that a big noise has occurred at synth1 startup once in a while.  
+		<li>Fixed a problem that the LFO is not synchronized with the DAW once in a while.
+		<li>Fixed a problem that the sound of synth1 is greatly changed once in a while when you change the sampling frequency in DAW.
+		<li>Fixed a problem that DAW is crushed once in a while when you change the sampling frequency in DAW.
+	</ul>
+	</li>
+</ul>
+
+
+<h5>Ver1.13 beta1 (2014.6.12)</h5>
+<ul>
+	<li>64bit version is available.
+	<ul>
+		<li>you can use synth1 on 64bit daw.
+		<li>32bit plugin file is "Synth1 VST.dll", 64bit plugin file is "Synth1 VST64.dll".
+	</ul>
+	</li>
+
+	<li>VST version up to 2.4. (both of 32bit/64bit)
+	<ul>
+		<li>There is no change to the previous version in functionality.
+	</ul>
+	</li>
+
+	<li>BugFix
+	<ul>
+		<li>Fixed a problem that occurred is petit noise on MusicMaker.
+	</ul>
+	</li>
+</ul>
+
+<h5>Ver1.12 (2010.5.23)</h5>
+<ul>
+	<li>It corresponded to an external bank (ZIP file).
+	<ul>
+		<li>It came to be able to read the ZIP file that compressed the .sy1 file. 
+		<li>It comes to be able to select it from the patch selection window of Synth1 only by putting the zip file on the external bank folder (default is "zipbank"). 
+		<li>Two or more folders can be included in one zip file with the hierarchy. 
+		<li>It is not possible to write it in an external bank. It is only for reading. 
+	</ul>
+	</li>
+
+	<li>The preservation place of the set up information was changed from the Windows registry to the ini file. 
+	<ul>
+		<li>The event that the set up information was not preserved on 64bit OS or it was not possible to refer occurred. I think this event to be ameliorable. 
+		<li>Therefore, when the setting of existing Synth1 is succeeded, it is necessary to execute set succession tool (reg2ini,exe). 
+		<li>The reference) The ini file is "APPDATA\Daichi\Synth\synth1.ini" . 
+	</ul>
+	</li>
+
+	<li>GUI
+	<ul>
+		<li>The method of selecting the bank in the patch selection window corresponding an external bank was changed to the tree view form. 
+		<li>Memo (readme.txt) of each bank folder was confirmed and it preserved it in the patch selection window. 
+		<li>It was able to be set whether to use a transparent window on the patch selection screen etc. by an optional dialog. 
+	</ul>
+	</li>
+
+	<li>Sound Engine
+	<ul>
+		<li>High-pass/Low-pass filter was added to Delay's feedback loop. 
+	</ul>
+	</li>
+
+	<li>BugFix
+	<ul>
+		<li>Problem that slider was displayed in LCD parts at setting that doesn't use slider window
+	</ul>
+	</li>
+</ul>
+
+
+<h5>Ver1.11 (2010.5.9)</h5>
+<ul>
+	<li>Sound Engine
+	<ul>
+		<li>The sub oscillator was added. 
+		<ul>
+			<li>The same pitch as oscillator1 or one octave under can be selected. 
+			<li>When OSC1 is eight multiple unison, the suboscillator becomes similar, too. 
+			<li>FM modulation also influences the suboscillator as well as OSC1. 
+			<li>The suboscillator doesn't influence the AM modulation. 
+			<li>When the amount of the suboscillator is raised, the entire volume is automatically adjusted not to grow. 
+			<li>The wave pulse of the suboscillator always becomes a square wave regardless of a pulse width parameter.
+		</ul>
+		<li>The saw wave was changed from rising type to the descent type. 
+		<ul>
+			<li>To operate the suboscillator effectively, it changed. 
+			<li>The amplitude value by 0 phases changed from 0 to +1. 
+		</ul>
+		<li>The accuracy of the envelope of Amplifier has been improved. 
+		<li>The limiter algorithm of Filter is changed, and the noise has been improved only a little. 
+		<li>The performance of OSC1 at eight unisons has been improved a little. 
+	</ul>
+	</li>
+
+	<li>System requirements
+	<ul>
+		<li>It did not operate in CPU that did not support SSE2. 
+		<ul>
+			<li>It seems to cause the expansion of the source code when keeping supporting it any further. To our regret, it was assumed operation off the subject.
+			<li>The error message is displayed in the upper part of the panel when operating with CPU that doesn't correspond, and the sound is not generated. 
+		</ul>
+	</ul>
+	</li>
+
+	<li>Small improvement and change of GUI
+	<ul>
+		<li>A part of objection of the parameter name was corrected. 
+		<li>The patch selection window etc. were shut with the escape key. 
+	</ul>
+	</li>
+
+	<li>BugFix
+	<ul>
+		<li>Problem of operation of sustaining pedal
+		<li>Problem that old FM setting value remained at voice trigger
+		<li>Problem that loudness at unison has changed in old version
+		<li>Problem that gain knob of Amplifier did not occasionally work
+		<li>Problem that patch change with program change spin button was not made good after it writes it in another bank
+		<li>Problem with thing that Synth1 window flickers according to environment
+		<li>Problem that position where parameter selection window etc. are displayed does clip to primary monitor in multimonitor environment
+	</ul>
+	</li>
+</ul>
+
+<h5>Ver1.10 (2010.5.4)</h5>
+<ul>
+	<li>The switch which chose the right or wrong of the patch choice from the vst host GUI was added to an optional dialogue.
+	<ul>
+		<li>The phenomenon that patch choice mechanism of the vst host side became unstable in occurred frequently.
+			It is the result that expanded the number of the banks to 100.
+			The switch is a thing to avoid this phenomenon.
+		<li>When this switch is on, tone choice is possibility from the vst host GUI; (as before).
+			However, depending on the vst host, a patch is not chosen, and there is a thing kept waiting for several seconds.
+		<li>When this switch is off, you cannot choose a patch from vst host GUI. However, the trouble mentioned above does not occur.
+		<li>It is by default off.
+	</ul>
+	</li>
+
+	<li>BugFix
+	<ul>
+		<li>The problem that pingpong delay did not become effective.
+		<li>The problem that failed in the conversion of the patch of Synth1 of the old version.
+		<li>The problem that a patch name did not synchronize with a VST host between Synth1 well.
+		<li>When did over of a mouse in voice status; the problem that mouse shape became the hand shape.
+	</ul>
+	</li>
+</ul>
+
+
+<h5>Ver1.09 (2010.5.1)</h5>
+<ul>
+
+	<li>A phase control function was added.
+	<ul>
+		<li>The "phase" knob in the Oscillatos section immobilizes phase relations in the trigger of oscillator 1 and oscillator 2 and adjusts it.
+			The phase is not fixed if I finish turning a knob to the left (like conventionally).</li>
+		<li>The "phase" knob in the Voice section immobilizes phase relations in the trigger of oscillators done unison and adjusts it. 
+			This knob should not be effective unless I immobilize phase in an oscillator section.</li>
+		<li>I think that I am easy to make the base sounds with a feeling of weight if I adjust the parameter mentioned above and the number of the unison voices, the unison detune.</li>
+	</ul>
+	</li>
+
+	<li>The number of the polyphonic was expanded to 32.
+	<ul>
+		<li>The number of the polyphonic became the parameter every patch.</li>
+	</ul>
+	</li>
+
+	<li>The number of the unison voice was expanded to 8.
+	<ul>
+		<li>Regardless of the voicing mode, you got possible to set the number of the unison voices with less than eight freely.</li>
+	</ul>
+	</li>
+
+	<li>The assignment function to LFO of modulation wheel was improved.
+	<ul>
+		<li>You can assign major MIDI control change and the channel after touch to arbitrary synthesizer parameter.</li>
+		<li>I coped with a sense to the minus direction.</li>
+	</ul>
+	</li>
+
+	<li>I changed effect of the unison mode knob exponentially.
+	<ul>
+		<li>It is easy to have come to do control of the small detune width.</li>
+	</ul>
+	</li>
+
+	<li>Small improvement / a change of GUI
+	<ul>
+		<li>It was easy to look and changed the fonts such as patch select windows.</li>
+		<li>The color of the LCD was changed to be able to brighten a little.</li>
+		<li>I made drawing of the LED simple and improved easiness in seeing.</li>
+		<li>The panel size of the default became 150%.</li>
+		<li>Voice status (disabled / key on / key off / ready) was displayed.</li>
+		<li>I revised some words of the dialogue.</li>
+		<li>The Lissajous indication function was abolished.</li>
+		<li>The size of the panel was expanded to 250%.</li>
+
+	</ul>
+	</li>
+
+	<li>BugFix
+	<ul>
+		<li>The problem that a screen flickers for an instant when I carry out a change to preset in Reaper.</li>
+		<li>The problem that all parameters were not displayed in a dialogue of the MIDI control assignment.</li>
+	</ul>
+	</li>
+
+</ul>
+
+
+<h5>Ver1.08 (2010.4.23)</h5>
+<ul>
+
+	<li>The DXi version became the discontinued.
+	<ul>
+		<li>Because the maintenance of the development environment was difficult, I abolished the DXi version.
+	</ul>
+	</li>
+
+	<li>The Synth1 Installer became the discontinued.
+	<ul>
+		<li>Because there was not the necessity, with the abolition for DXi, I abolished the installer. 
+		On the other hand, I attach tool (initsetteings.exe) initializing the setting (windows registry) such as bank folders. 
+		When you use Synth1 for the first time, please initialize setting with this tool. 
+	</ul>
+	</li>
+
+	<li>The number of the banks was expanded to 100.
+	<ul>
+		<li>The setting initialization tool does the setting to bank00 - 09, but does not set bank10 - 99. 
+		When you use bank10 - 99, prepare a folder by yourself, 
+		Please set it in an optional dialog. 
+		</li>
+	</ul>
+	</li>
+
+	<li>BugFix
+	<ul>
+		<li>Correspondence of the malfunction that the MIDI tab of the optional dialogue is replaced by without permission.</li>
+		<li>Just after a tone save, time when a program change was not performed fixed the bug that there was.</li>
+	</ul>
+	</li>
+
+</ul>
+
+
+<h5>■Ver1.07 (2006.5.3)</h5>
+<ul>
+
+<li>Play Mode
+<ul>
+	<li>ユニゾンステレオ化及び、stereo spreadつまみの追加</li>
+	<li>ユニゾン時のピッチ(note単位)調整つまみの追加</li>
+</ul></li>
+
+<li>Effect
+<ul>
+	<li>Phaserの追加</li>
+</ul></li>
+
+<li>GUI
+<ul>
+	<li>リサージュ図形スイッチの追加</li>
+	<li>全体的な描画性能の改善</li>
+</ul></li>
+
+<li>その他内部処理改善等</li>
+
+</ul>
+
+<h5>■Ver1.07(beta) (2006.3.26)</h5>
+<ul>
+
+<li>BugFix
+<ul>
+	<li>Synth1起動時に、一瞬ノイズがでる問題を解決</li>
+</ul></li>
+
+</ul>
+
+<h5>■Ver1.07(alpha2) (2005.10.16)</h5>
+<ul>
+
+<li>GUI
+<ul>
+	<li>ノブの入力時のスライダーWindow表示をオプション扱いとした（設定画面）。</li>
+</ul></li>
+
+<li>BugFix
+<ul>
+	<li>DXiでクラッシュする件を修正</li>
+</ul></li>
+
+</ul>
+
+<h5>■Ver1.07(alpha) (2005.10.1)</h5>
+<ul>
+
+<li>Oscillators
+<ul>
+	<li>OSC1 8多重デチューンつまみの追加</li>
+	<li>OSC2 pitchつまみのスムーズ化</li>
+	<li>PWのLFO変化量を-PIから、+PIまでに変更</li>
+</ul></li>
+
+
+<li>Filter
+<ul>
+	<li>AMOUNTのマイナス値対応</li>
+</ul></li>
+
+<li>LFO
+<ul>
+	<li>変調先の種類にPANを追加</li>
+</ul></li>
+
+<li>Effectの追加</li>
+
+<li>Equalizer
+<ul>
+	<li>PAN(L-R)の追加</li>
+</ul></li>
+
+<li>Tempo Delay
+<ul>
+	<li>ディレイタイム変更時の音をテープエコーっぽく。。。</li>
+	<li>ステレオ化。それにともない以下の変更・追加</li>
+	<li>種類にノーマルステレオ(ST)、クロスフィードバック(X)、ピンポン(PP)</li>
+	<li>左右のディレイタイムを微妙にずらすパラメタ追加(spread)</li>
+	<li>旧levelつまみは廃止し、原音とディレイ音とのバランス調整式とした(d/w)</li>
+</ul></li>
+
+<li>Chorus/Flangr
+<ul>
+	<li>内部処理の全面変更により、ノイズレスのまともな音に。。。</li>
+	<li>RATEの変化幅を拡大(0.01Hz～400Hz)</li>
+	<li>超ショートtime(0.05ms)を出せるように変更（feedbackと組み合わせて低域ブースト可能）</li>
+	<li>feedbackを+/-両方かけられるように変更</li>
+</ul></li>
+
+<li>Play Mode
+<ul>
+	<li>ユニゾン時のデチューンつまみを追加</li>
+</ul></li>
+
+<li>その他内部処理の最適化もろもろ</li>
+
+</ul>
+
+
+<h5>Ver1.06 (2003.9.20)</h5>
+<ul>
+<li>
+about sound
+<ul>
+	<li>unison mode</li>
+	<li>portament auto mode</li>
+	<li>smooth vcf freq knob</li>
+	<li>vcf resonance feedback</li>
+	<li>vcf distortion -&gt saturation</li>
+	<li>modify vcf velocity</li>
+	<li>vco S/N up(for sine.triangle)</li>
+	<li>modify Delay&lt-&gtChorus/Flange patching.</li>
+	<li>modify Chorus/Flanger algorithm</li>
+	<li>modify portament effect(linear-&gtexponential)</li>
+	<li>modify noise when mono mode</li>
+</ul></li>
+
+<li>
+about MIDI
+<ul>
+	<li>receive MIDI control change</li>
+	<li>read/write Control Change Map</li>
+	<li>Midi Control Learn mode(click [OPT] with pressing [Shift])</li>
+	<li>Control Map for nordlead2</li>
+</ul></li>
+
+<li>
+BugFix
+<ul>
+	<li>Fixed a bug that hangup when tempo cahnge.(DXi)</li>
+	<li>Fixed a bug that arpegiator tempo becomes later and later..</li>
+	<li>Fixed a bug that synth1 parameter is out of VSTi range. (for Muzie)</li>
+	<li>Fixed a bug that the hostapplication is crushed  when the Synth1 starts.(VSTi)</li>
+	<li>etc..</li>
+</ul></li>
+
+<li>
+
+<h5>Ver1.05a (2002.11.17)</h5>
+<ul>
+<li>
+about sound
+<ul>
+	<li>Arbitrary Sampling Frequency</li>
+	<li>Master Tune</li>
+	<li>Modulation envelope -&gt FM,Pulse Width</li>
+	<li>Smooth FM modulation</li>
+	<li>OSC2 fine unit-&gt cent</li>
+	<li>OSC1,2 fine tune</li>
+	<li>modify sync+FM</li>
+	<li>modify sync noise reset</li>
+	<li>Niose generator on each voice</li>
+	<li>LFO tempo sync,key sync</li>
+	<li>LFO maximum speed up</li>
+	<li>LFO dest =&gt FM</li>
+	<li>modify delay noise.</li>
+	<li>modify attack time</li>
+	<li>modify volume,gain.sustain</li>
+	<li>modify velocity</li>
+	<li>etc.</li>
+</ul></li>
+
+<li>
+about MIDI
+<ul>
+	<li>Sustain Pedal</li>
+</ul></li>
+
+<li>
+BugFix
+<ul>
+	<li>modify mod env max value</li>
+	<li>modify chorus memory buffer</li>
+	<li>modify pitch env & portament combination</li>
+	<li>modify arp range is hidden by FruityLoops randomize function</li>
+	<li>modify LFO random</li>
+</ul></li>
+
+<li>
+about GUI
+<ul>
+	<li>change delay arpegiator tempo display.</li>
+	<li>LCD slider/selection.</li>
+	<li>direct select LED</li>
+	<li>each program has color attribute.</li>
+	<li>change slider length.</li>
+	<li>default panel size -&gt130%</li>
+	<li>change knob size.</li>
+	<li>click bank LCD-&gtselect program/li>
+	<li>change some slider diplay</li>
+	<li>legart x-&gtlegato o</li>
+</ul></li>
+
+</ul>
+<h5>Ver1.04a (2002.11.8)</h5>
+<ul>
+<li>SONAR+Synth1でAudio Exportや、TrackDown使用時に落ちるバグを修正した</li>
+</ul>
+<h5>Ver1.04 (2002.10.30)</h5>
+<ul>
+<li>Fixed a bug that caused a crash upon using SynthEdit with Synth1</li>
+</ul>
+<h5>Ver1.03 (2002.10.28)</h5>
+<ul>
+<li>Fixed a GDI resource leak and improved stability in Win98/Me</li>
+<li>Compacted the memory used for graphics</li>
+</ul>
+<h5>Ver1.02 (2002.10.27)</h5>
+<ul>
+<li>Fixed a bug that prevented proper selection of the waveshape for LFO in VSTi mode</li>
+<li>Fixed a memory leak that occurred after use in VSTi mode</li>
+<li>Added the option of changing the color and size of the user interface</li>
+<li>Adjusted the position of dialog boxes</li>
+<li>Added display of graduation on knobs; minor graphics changes.</li>
+<li>Narrowed slider displays to reduce the overlap with the neighboring controls</li>
+<li>Fixed lack of clipping correction for filters when used with a non-SSE processor</li>
+</ul>
+<h5>Ver1.01 (2002.10.15)</h5>
+<ul>
+<li>VSTi compatibility</li>
+<li>Added the option of ignoring MIDI messages</li>
+<li>Adjusted the position of dialog boxes </li>
+</ul>
+<h5>Ver 1.0 (2002.10.9)</h5>
+<ul>
+<li>First registered version </li>
+</ul>
+</div>
+
+<!---------------------------- support ---------------------------->
+<a name="supo">
+<center><h4>Support</h4></center>
+<div class=i>
+<h5>Support information</h5>
+<p>The latest info will be available on the following home page. Please make a visit:</p>
+<A href="http://www.geocities.jp/daichi1969/">
+<TT>http://www.geocities.jp/daichi1969/</TT>
+</A>
+<h5>This software is freeware</h5>
+<p>Freely distributable. Feel free to copy or feature this, but please contact me if you do. The copyright holder of this software is Daichi.</p>
+e-mail : <TT>cbj75800[at]pop02[dot]odn[dot]ne[dot]jp</TT>
+
+</div>
+
+<!---------------------------------- フッター ----------------------------------->
+<HR>
+<CENTER>
+<FONT SIZE="1" FACE="Verdana,Arial"><B>
+Copyright &copy; 2010 by Daichi. All rights reserved.
+</B></FONT><BR>
+</CENTER>
+
+</td></tr></table></center>
+</BODY></HTML>
+

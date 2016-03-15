@@ -1,0 +1,22 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CircleGestures.cs">
+    <Files>
+      <File FileName="Assets/Scripts/ChangeMaterialTest.cs" Line="71" Column="34" />
+      <File FileName="Assets/Scripts/TitleScreen.cs" Line="59" Column="38" />
+      <File FileName="Assets/Scripts/MenuMove.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SwipeGestures.cs" Line="41" Column="1" />
+      <File FileName="Assets/Scripts/CircleGestures.cs" Line="19" Column="60" />
+      <File FileName="Assets/Scripts/TutorialPlane.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SavePlane.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FingerMovementRotation.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FingerTempo.cs" Line="64" Column="19" />
+      <File FileName="Assets/Scripts/HelpPlane.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/LightIntensity.cs" Line="28" Column="20" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

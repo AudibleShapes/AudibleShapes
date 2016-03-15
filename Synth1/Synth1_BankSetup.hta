@@ -1,0 +1,138 @@
+<head>
+<title>Synth1 Bank Setup</title>
+<hta:application applicationname="Synth1 Bank Setup" icon="icon.ico" scroll="no" singleinstance="yes" windowstate="normal" border="dialog" showintaskbar="yes" innerborder="no">
+<style>
+	body,table,td,th,input { font-family: verdana; font-size: 11px; color: #fff }
+	th { text-align: left; }
+	a:link, a:visited { color: #900; }
+	a:hover { color: #f00; }
+	.idle { background-color: #500; color: #ccc; border: 1px solid #f00; }
+	.edit { background-color: #000; color: #ff0; border: 1px solid #f00; }
+	.about { color: #ff0; font-weight: bold; font-size: 12px; font-family: tahoma; }
+	.btn_idle { background-color: #fff; border: 1px solid #633; border-bottom-color: #311; border-right-color: #311; color: #000; font-family: tahoma; font-weight: bold; font-size: 10px; }
+	.btn_over { background-color: #000; border: 1px solid #f00; border-bottom-color: #a00; border-right-color: #a00; color: #f00; font-family: tahoma; font-weight: bold; font-size: 10px; }
+</style>
+</head>
+<script language="VBScript">
+    Sub Window_Onload
+        strComputer = "."
+        Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
+        Set colItems = objWMIService.ExecQuery("Select * From Win32_DesktopMonitor")
+        For Each objItem in colItems
+            intHorizontal = objItem.ScreenWidth
+            intVertical = objItem.ScreenHeight
+        Next
+        intLeft = (intHorizontal - 650) / 2
+        intTop = (intVertical - 365) / 2
+        window.resizeTo 650,365
+        window.moveTo intLeft, intTop
+
+		set Sh = CreateObject("WScript.Shell")
+		key =  "HKEY_LOCAL_MACHINE\SOFTWARE\Daichi\Synth1\"
+		document.args.dir0.value = Sh.RegRead(key & "bankfolder0")
+		document.args.dir1.value = Sh.RegRead(key & "bankfolder1")
+		document.args.dir2.value = Sh.RegRead(key & "bankfolder2")
+		document.args.dir3.value = Sh.RegRead(key & "bankfolder3")
+		document.args.dir4.value = Sh.RegRead(key & "bankfolder4")
+		document.args.dir5.value = Sh.RegRead(key & "bankfolder5")
+		document.args.dir6.value = Sh.RegRead(key & "bankfolder6")
+		document.args.dir7.value = Sh.RegRead(key & "bankfolder7")
+		document.args.dir8.value = Sh.RegRead(key & "bankfolder8")
+		document.args.dir9.value = Sh.RegRead(key & "bankfolder9")
+    End Sub
+
+	Const BIF_returnonlyfsdirs = &H0001    'Don't want no steenkin' filenames
+	Const BIF_ShowAllObjects   = &H0008    'ReturnFSAncestors. This will give you typical root view
+	                                       'XP has My Computer, My Network Places not seen on 2000
+	Const BIF_editbox 		   = &H0010    'Show active selection, allows manual input
+
+	Dim wshShell
+	'Wscript object
+	Set wshShell = CreateObject("WScript.Shell")
+
+	Function BrowseForFolder(title, flag, dir)
+		On Error Resume Next
+		Set oShell = CreateObject("Shell.Application")
+		Set oItem = oShell.BrowseForFolder(&H0, title, flag, dir)
+	        strSelection = oItem.Title
+	        If Err <> 0 Then 'cancelled
+		        Set oShell = Nothing
+		        set oItem = Nothing
+		        Exit Function
+	        Else
+				 ' If colon found then get drive letter from the title. No array
+				If InStr(strSelection, ":") Then
+					BrowseForFolder = mid(strSelection,InStr(strSelection, ":")-1, 2)
+				Else
+				    'Handle all other special cases where path not returned
+			        Select Case strSelection
+			            Case "Desktop"
+			                BrowseForFolder = wshShell.SpecialFolders("Desktop")
+			            Case "My Documents"
+			                BrowseForFolder = wshShell.SpecialFolders("MyDocuments")
+			            Case "My Computer"
+			                MsgBox "Invalid selection",vbCritical + vbOKOnly,"Error"
+			                WScript.Quit
+			            Case "My Network Places"
+			                MsgBox "Invalid selection",vbCritical + vbOKOnly,"Error"
+			                WScript.Quit
+			            Case Else
+			             ' Finally try to retrieve the full path a la Born
+			             BrowseForFolder = oItem.ParentFolder.ParseName(oItem.Title).Path
+			        End Select
+				End If
+			End If
+		On Error Goto 0
+	End Function
+
+	Function GetDestDir
+		GetDestDir = BrowseForFolder("Select Directory...", BIF_ShowAllObjects & BIF_editbox, "")
+	End Function
+
+	Sub BankSetup(dir0, dir1, dir2, dir3, dir4, dir5, dir6, dir7, dir8, dir9)
+		set Sh = CreateObject("WScript.Shell")
+		key =  "HKEY_LOCAL_MACHINE\SOFTWARE\Daichi\Synth1\"
+		if dir0 <> "" then Sh.RegWrite key & "bankfolder0", dir0, "REG_SZ"
+		if dir1 <> "" then Sh.RegWrite key & "bankfolder1", dir1, "REG_SZ"
+		if dir2 <> "" then Sh.RegWrite key & "bankfolder2", dir2, "REG_SZ"
+		if dir3 <> "" then Sh.RegWrite key & "bankfolder3", dir3, "REG_SZ"
+		if dir4 <> "" then Sh.RegWrite key & "bankfolder4", dir4, "REG_SZ"
+		if dir5 <> "" then Sh.RegWrite key & "bankfolder5", dir5, "REG_SZ"
+		if dir6 <> "" then Sh.RegWrite key & "bankfolder6", dir6, "REG_SZ"
+		if dir7 <> "" then Sh.RegWrite key & "bankfolder7", dir7, "REG_SZ"
+		if dir8 <> "" then Sh.RegWrite key & "bankfolder8", dir8, "REG_SZ"
+		if dir9 <> "" then Sh.RegWrite key & "bankfolder9", dir9, "REG_SZ"
+		MsgBox "Bank configuration complete", vbOKOnly, "Success"
+	End Sub
+
+	Sub ShowHide(what)
+		If (what.style.display = "block") then
+			what.style.display = "none"
+		Else
+			what.style.display = "block"
+		End if
+	End Sub
+</script>
+<body style="filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#C00000', EndColorStr='#500000'); font-family: tahoma; font-size: 11px; color: #000; border: 2px solid #666;" onload="javascript:window.resizeTo('550', '200');">
+<form id="args" name="args">
+<table border="0" cellpadding="3" cellspacing="0">
+	<tr>
+		<td class="about" colspan="2">
+			This script configures your Synth1 preset bank locations via the windows registry.
+		</td>
+	</tr>
+	<tr><th nowrap>Bank0</th><td><input type="text" class="idle" name="dir0" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir0.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank1</th><td><input type="text" class="idle" name="dir1" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir1.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank2</th><td><input type="text" class="idle" name="dir2" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir2.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank3</th><td><input type="text" class="idle" name="dir3" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir3.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank4</th><td><input type="text" class="idle" name="dir4" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir4.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank5</th><td><input type="text" class="idle" name="dir5" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir5.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank6</th><td><input type="text" class="idle" name="dir6" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir6.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank7</th><td><input type="text" class="idle" name="dir7" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir7.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank8</th><td><input type="text" class="idle" name="dir8" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir8.value=GetDestDir"></td></tr>
+	<tr><th nowrap>Bank9</th><td><input type="text" class="idle" name="dir9" size="80" onfocus="me.classname='edit'" onblur="me.classname='idle'"><input type="button" value="Browse&hellip;" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="dir9.value=GetDestDir"></td></tr>
+	<tr><td colspan="2">&nbsp;</td></tr>
+	<tr><td><input type="button" style="font-size: 11px;" value="Exit" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="self.close"></td><td align="right"><input type="button" style="font-size: 11px;" value="Configure Banks" name="run" class="btn_idle" onmouseover="me.classname='btn_over'" onmouseout="me.classname='btn_idle'" onclick="BankSetup dir0.value, dir1.value, dir2.value, dir3.value, dir4.value, dir5.value, dir6.value, dir7.value, dir8.value, dir9.value">
+</table>
+</form>
+</body>
