@@ -75,17 +75,17 @@ public class oscControl : MonoBehaviour {
 				if (String.Equals("/counter", address)) {
 
 					if (String.Equals("0", item.Value.packets[lastPacketIndex].Data[0].ToString())) {
-						_cp.setCounter1();
-						_cp2.setCounter1();
-					} else if (String.Equals("1", item.Value.packets[lastPacketIndex].Data[0].ToString())) {
 						_cp.setCounter2();
 						_cp2.setCounter2();
-					} else if (String.Equals("2", item.Value.packets[lastPacketIndex].Data[0].ToString())) {
+					} else if (String.Equals("1", item.Value.packets[lastPacketIndex].Data[0].ToString())) {
 						_cp.setCounter3();
 						_cp2.setCounter3();
-					} else if (String.Equals("3", item.Value.packets[lastPacketIndex].Data[0].ToString())) {
+					} else if (String.Equals("2", item.Value.packets[lastPacketIndex].Data[0].ToString())) {
 						_cp.setCounter4();
 						_cp2.setCounter4();
+					} else if (String.Equals("3", item.Value.packets[lastPacketIndex].Data[0].ToString())) {
+						_cp.setCounter1();
+						_cp2.setCounter1();
 					}
 				}
 			}
