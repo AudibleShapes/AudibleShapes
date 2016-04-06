@@ -9,7 +9,7 @@ public class MenuMove : MonoBehaviour {
 	public ChangeMaterialTest _cmt;
 
 	private readonly float MAX_HEIGHT = 6.67f;
-	private readonly float MIN_HEIGHT = 4.54f;
+	private readonly float MIN_HEIGHT = 5.04f;
 
 	public Material mat_pos;
 	public Material mat_sca;
@@ -33,6 +33,8 @@ public class MenuMove : MonoBehaviour {
 	private static readonly int MAJOR_COUNT = 0;
 	private static readonly int MINOR_COUNT = 1;
 	private static readonly int WHOLE_COUNT = 2;
+	private static float timer = 1.0f;
+	private bool isSelectedItem = false;
 
 	private static readonly string SCALE_NAME = "Scale";
 	private static readonly string POSITION_NAME = "Position";
@@ -51,6 +53,13 @@ public class MenuMove : MonoBehaviour {
 	void Update () {
 //		foreach (Transform child in transform)
 //			Debug.Log(child.transform.position);
+		if (isSelectedItem) {
+			timer -= Time.deltaTime;
+			if (timer < 0.0f) {
+				timer = 1.0f;
+				isSelectedItem = false;
+			}
+		}
 	}
 
 	public void moveUp() {
@@ -78,7 +87,7 @@ public class MenuMove : MonoBehaviour {
 		for (int i = 0; i < count; i++) { //each coordinate of the pinch is matched to each coordinate of each grid space; bounds.size gets the actual size of each grid space as to get its edges when pinching
 			if (x >= (transform.GetChild(i).transform.position.x - (transform.GetChild(i).GetComponent<Renderer>().bounds.size.x/2)) && x < (transform.GetChild(i).transform.position.x + (transform.GetChild(i).GetComponent<Renderer>().bounds.size.x/2))) {
 				if (y >= (transform.GetChild(i).transform.position.y - (transform.GetChild(i).GetComponent<Renderer>().bounds.size.y/2)) && y < (transform.GetChild(i).transform.position.y + (transform.GetChild(i).GetComponent<Renderer>().bounds.size.y/2))) {
-					if (z >= (transform.GetChild(i).transform.position.z - (transform.GetChild(i).GetComponent<Renderer>().bounds.size.z/2)) && z < (transform.GetChild(i).transform.position.z + 1f)) {
+					if (z >= (transform.GetChild(i).transform.position.z - (transform.GetChild(i).GetComponent<Renderer>().bounds.size.z/2)) && z < (transform.GetChild(i).transform.position.z + 3f)) {
 						return true;
 					}
 				}
@@ -89,72 +98,75 @@ public class MenuMove : MonoBehaviour {
 	}
 
 	public void changeMaterial(float x, float y, float z) {
-		int count = transform.childCount;
-		for (int i = 0; i < count; i++) { //each coordinate of the poke is matched to each coordinate of each grid space; bounds.size gets the actual size of each grid space as to get its edges when pinching
-			if (x >= (transform.GetChild(i).transform.position.x - (transform.GetChild(i).GetComponent<Renderer>().bounds.size.x/2)) && x < (transform.GetChild(i).transform.position.x + (transform.GetChild(i).GetComponent<Renderer>().bounds.size.x/2))) {
-				if (y >= (transform.GetChild(i).transform.position.y - (transform.GetChild(i).GetComponent<Renderer>().bounds.size.y/2)) && y < (transform.GetChild(i).transform.position.y + (transform.GetChild(i).GetComponent<Renderer>().bounds.size.y/2))) {
-					if (z >= (transform.GetChild(i).transform.position.z - (transform.GetChild(i).GetComponent<Renderer>().bounds.size.z/2)) && z < (transform.GetChild(i).transform.position.z + 1f)) {
-						if (transform.GetChild(i).name.Equals(SCALE_NAME)) {
-							scaleCount++;
-							if (scaleCount == MAJOR_COUNT) { //scaleCount is 0
-								_snt.majorText();
-								OSCHandler.Instance.SendMessageToClient("MaxMSP", "/musicScale", scaleCount);
-							} else if (scaleCount == MINOR_COUNT) { //scaleCount is 1
-								_snt.minorText();
-								OSCHandler.Instance.SendMessageToClient("MaxMSP", "/musicScale", scaleCount);
-							} else if (scaleCount == WHOLE_COUNT) { //scaleCount is 2
-								_snt.wholeText();
-								OSCHandler.Instance.SendMessageToClient("MaxMSP", "/musicScale", scaleCount);
-							} else if (scaleCount == PENTATONIC_COUNT) { //scaleCount is 3
-								_snt.pentatonicText();
-								OSCHandler.Instance.SendMessageToClient("MaxMSP", "/musicScale", scaleCount);
-								scaleCount = -1;
-							}
+		if (!isSelectedItem) {
+			isSelectedItem = true;
+			int count = transform.childCount;
+			for (int i = 0; i < count; i++) { //each coordinate of the poke is matched to each coordinate of each grid space; bounds.size gets the actual size of each grid space as to get its edges when pinching
+				if (x >= (transform.GetChild (i).transform.position.x - (transform.GetChild (i).GetComponent<Renderer> ().bounds.size.x / 2)) && x < (transform.GetChild (i).transform.position.x + (transform.GetChild (i).GetComponent<Renderer> ().bounds.size.x / 2))) {
+					if (y >= (transform.GetChild (i).transform.position.y - (transform.GetChild (i).GetComponent<Renderer> ().bounds.size.y / 2)) && y < (transform.GetChild (i).transform.position.y + (transform.GetChild (i).GetComponent<Renderer> ().bounds.size.y / 2))) {
+						if (z >= (transform.GetChild (i).transform.position.z - (transform.GetChild (i).GetComponent<Renderer> ().bounds.size.z / 2)) && z < (transform.GetChild (i).transform.position.z + 3f)) {
+							if (transform.GetChild (i).name.Equals (SCALE_NAME)) {
+								scaleCount++;
+								if (scaleCount == MAJOR_COUNT) { //scaleCount is 0
+									_snt.majorText ();
+									OSCHandler.Instance.SendMessageToClient ("MaxMSP", "/musicScale", scaleCount);
+								} else if (scaleCount == MINOR_COUNT) { //scaleCount is 1
+									_snt.minorText ();
+									OSCHandler.Instance.SendMessageToClient ("MaxMSP", "/musicScale", scaleCount);
+								} else if (scaleCount == WHOLE_COUNT) { //scaleCount is 2
+									_snt.wholeText ();
+									OSCHandler.Instance.SendMessageToClient ("MaxMSP", "/musicScale", scaleCount);
+								} else if (scaleCount == PENTATONIC_COUNT) { //scaleCount is 3
+									_snt.pentatonicText ();
+									OSCHandler.Instance.SendMessageToClient ("MaxMSP", "/musicScale", scaleCount);
+									scaleCount = -1;
+								}
 
-							saved_scaleCount = scaleCount;
-						} else if (transform.GetChild(i).name.Equals(POSITION_NAME)) {
-							if (!isPositionMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_pos;
-								isPositionMode = true;
-								turnOffOtherMode(SCALING_NAME);
-								turnOffOtherMode(ROTATION_NAME);
-								turnOffOtherMode(TEMPO_NAME);
-							} else if (isPositionMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_pos_def;
-								isPositionMode = false;
-							}
-						} else if (transform.GetChild(i).name.Equals(SCALING_NAME)) {
-							if (!isScaleMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_sca;
-								isScaleMode = true;
-								turnOffOtherMode(POSITION_NAME);
-								turnOffOtherMode(ROTATION_NAME);
-								turnOffOtherMode(TEMPO_NAME);
-							} else if (isScaleMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_sca_def;
-								isScaleMode = false;
-							}
-						} else if (transform.GetChild(i).name.Equals(ROTATION_NAME)) {
-							if (!isRotateMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_rot;
-								isRotateMode = true;
-								turnOffOtherMode(POSITION_NAME);
-								turnOffOtherMode(SCALING_NAME);
-								turnOffOtherMode(TEMPO_NAME);
-							} else if (isRotateMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_rot_def;
-								isRotateMode = false;
-							}
-						} else if (transform.GetChild(i).name.Equals(TEMPO_NAME)) {
-							if (!isTempoMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_tempo;
-								isTempoMode = true;
-								turnOffOtherMode(POSITION_NAME);
-								turnOffOtherMode(SCALING_NAME);
-								turnOffOtherMode(ROTATION_NAME);
-							} else if (isTempoMode) {
-								transform.GetChild(i).transform.GetComponent<Renderer>().material = mat_tempo_def;
-								isTempoMode = false;
+								saved_scaleCount = scaleCount;
+							} else if (transform.GetChild (i).name.Equals (POSITION_NAME)) {
+								if (!isPositionMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_pos;
+									isPositionMode = true;
+									turnOffOtherMode (SCALING_NAME);
+									turnOffOtherMode (ROTATION_NAME);
+									turnOffOtherMode (TEMPO_NAME);
+								} else if (isPositionMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_pos_def;
+									isPositionMode = false;
+								}
+							} else if (transform.GetChild (i).name.Equals (SCALING_NAME)) {
+								if (!isScaleMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_sca;
+									isScaleMode = true;
+									turnOffOtherMode (POSITION_NAME);
+									turnOffOtherMode (ROTATION_NAME);
+									turnOffOtherMode (TEMPO_NAME);
+								} else if (isScaleMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_sca_def;
+									isScaleMode = false;
+								}
+							} else if (transform.GetChild (i).name.Equals (ROTATION_NAME)) {
+								if (!isRotateMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_rot;
+									isRotateMode = true;
+									turnOffOtherMode (POSITION_NAME);
+									turnOffOtherMode (SCALING_NAME);
+									turnOffOtherMode (TEMPO_NAME);
+								} else if (isRotateMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_rot_def;
+									isRotateMode = false;
+								}
+							} else if (transform.GetChild (i).name.Equals (TEMPO_NAME)) {
+								if (!isTempoMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_tempo;
+									isTempoMode = true;
+									turnOffOtherMode (POSITION_NAME);
+									turnOffOtherMode (SCALING_NAME);
+									turnOffOtherMode (ROTATION_NAME);
+								} else if (isTempoMode) {
+									transform.GetChild (i).transform.GetComponent<Renderer> ().material = mat_tempo_def;
+									isTempoMode = false;
+								}
 							}
 						}
 					}

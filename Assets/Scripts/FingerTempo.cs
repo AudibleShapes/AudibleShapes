@@ -10,7 +10,7 @@ public class FingerTempo : MonoBehaviour {
 	private float min_z = 10.0f; //used to establish min z between z coordinates of pinky finger and palm
 	public static float mapped = 120.0f;
 	private static int saved_mapped = 120;
-	private float timeLeft = 10.0f;
+	private float timeLeft = 5.0f;
 	private readonly float MAX_Z_POSS = 2f;
 	private readonly float MIN_Z_POSS = -2f;
 
@@ -61,7 +61,7 @@ public class FingerTempo : MonoBehaviour {
 				//change tempo here in OSC
 				if (timeLeft < 0) {
 					_mm.disableTempoChange();
-					timeLeft = 10.0f;
+					timeLeft = 5.0f;
 				}
 			}
 		}

@@ -4,8 +4,8 @@ using System.Collections;
 public class MainMenuPanel : MonoBehaviour {
 	public Material menu_dis;
 	public Material menu_en;
-	private readonly float MAX_HEIGHT = 5.94f;
-	private readonly float MIN_HEIGHT = 4.76f;
+	private readonly float MAX_HEIGHT = 6.94f;
+	private readonly float MIN_HEIGHT = 5.16f;
 
 	// Use this for initialization
 	void Start () {
