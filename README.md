@@ -1,5 +1,5 @@
 # AudibleShapes
-Final project for Capstone @ York University.  By Stefano Onorati &amp; Victor Zohni
+Final project for Capstone @ York University.  By Stefano Onorati &amp; Victor Zohni 2016
 
 Requires three main components:
 1) Unity Editor to open the scene under Assets folder
